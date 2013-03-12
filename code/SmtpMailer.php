@@ -9,7 +9,8 @@ class SmtpMailer extends Mailer {
 
 
 	function __construct($mailer = null){
-		parent::__construct();
+		if(method_exists(get_parent_class($this), "__construct"))
+			parent::__construct();
 		$this->mailer = $mailer;
 	}
 
