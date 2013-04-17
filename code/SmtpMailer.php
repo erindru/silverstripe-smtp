@@ -51,10 +51,10 @@ class SmtpMailer extends Mailer {
 			$this->mailer->MsgHTML($htmlContent, Director::baseFolder());
 		} else {
 			$this->mailer->Body = $htmlContent;
-      if(empty($plainContent)){
-        $plainContent = trim(Convert::html2raw($htmlContent));
-      }
-      $this->mailer->AltBody = $plainContent;
+			if(empty($plainContent)) {
+				$plainContent = trim(Convert::html2raw($htmlContent));
+			}
+			$this->mailer->AltBody = $plainContent;
 		}
 		$this->sendMailViaSmtp($to, $from, $subject, $attachedFiles, $customheaders, $inlineImages);
 	}
@@ -134,13 +134,8 @@ class SmtpMailer extends Mailer {
 
 	protected function attachFiles($attachedFiles){
 		if(!empty($attachedFiles) && is_array($attachedFiles)){
-			foreach($attachedFiles as $attachedFile){
-        if(substr($attachedFile['filename'], 0, strlen(Director::baseFolder())) === Director::baseFolder()){ // If the file path is already included, don't include it again
-					$filePath = $attachedFile['filename'];
-				} else {
-					$filePath = Director::baseFolder() . DIRECTORY_SEPARATOR . $attachedFile['filename'];
-				}
-				$this->mailer->AddAttachment($filePath);
+			foreach($attachedFiles as $attachedFile) {
+				$this->mailer->AddStringAttachment($attachedFile["contents"], $attachedFile["filename"]);
 			}
 		}
 	}
