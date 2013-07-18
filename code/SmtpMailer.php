@@ -57,6 +57,7 @@ class SmtpMailer extends Mailer {
 			$this->mailer->AltBody = $plainContent;
 		}
 		$this->sendMailViaSmtp($to, $from, $subject, $attachedFiles, $customheaders, $inlineImages);
+        return true;
 	}
 
 
@@ -102,11 +103,11 @@ class SmtpMailer extends Mailer {
 		}
 		if(preg_match('/(\'|")(.*?)\1[ ]+<[ ]*(.*?)[ ]*>/', $to, $to_splitted)){ //If $from countains a name, e.g. "My Name" <foo@gmail.com>
 			$this->mailer->ClearAddresses();
-			$this->mailer->AddAddress($to_splitted[3], $to_splitted[2]); 
+			$this->mailer->AddAddress($to_splitted[3], $to_splitted[2]);
 		} else {
 			$to = Email::validEmailAddress($to);
 			$this->mailer->ClearAddresses();
-			$this->mailer->AddAddress($to, ucfirst(substr($to, 0, strpos($to, '@')))); 
+			$this->mailer->AddAddress($to, ucfirst(substr($to, 0, strpos($to, '@'))));
 			//For the recipient's name, the string before the @ from the e-mail address is used
 			$this->mailer->SetFrom($from);
 		}
