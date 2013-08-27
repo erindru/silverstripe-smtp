@@ -1,5 +1,6 @@
 {
   "name": "mediadevils/silverstripe-smtp",
+  "type": "silverstripe-module",
   "require": {
   }
 }
